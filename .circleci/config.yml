@@ -1,0 +1,154 @@
+version: 2.1
+
+enum: &enum ["darwin", "linux"]
+
+parameters:
+  # string-param:
+  #   type: string
+  #   default: "default string"
+  # int-param:
+  #   type: integer
+  #   default: 0
+  # bool-param:
+  #   type: boolean
+  #   default: false
+  # enum-param:
+  #   type: enum
+  #   enum: ["option1", "option2"]
+  #   default: "option1"
+
+  # camelCaseString:
+  #   type: string
+  #   default: "camel"
+  #   description: "camel case string for testing"
+  # camelCaseInteger:
+  #   type: integer
+  #   default: 1
+  #   description: "camel case int for testing"
+  # camelCaseBool:
+  #   type: boolean
+  #   default: false
+  camelCaseEnum:
+    type: enum
+    enum: ["may", "the", "force", "be", "with", "you"]
+    default: "force"
+
+
+
+  # snake_case_string:
+  #   type: string
+  #   default: "ssssnake"
+  #   description: "snake case string for testing"
+  # snake_case_integer:
+  #   type: integer
+  #   default: 2
+  #   description: "snake case inte for testing"
+  # snake_case_bool:
+  #   type: boolean
+  #   default: true
+  # snake_case_enum:
+  #   type: string
+  #   default: "works"
+  #   enum: ["trust", "me", "it", "works", "on", "my", "machine"]
+
+  # flatcasestring:
+  #   type: string
+  #   default: "nocase"
+  #   description: "nocase string for testing"
+  # flatcaseint:
+  #   type: integer
+  #   default: 3
+  #   description: "nocase int for testing"
+  # flatcasebool:
+  #   type: boolean
+  #   default: true
+  #   description: "nocase bool for testing"
+  # flatcaseenum:
+  #   type: enum
+  #   enum: ["i", "love", "peanut", "butter"]
+  #   default: "i"
+
+  image-tag:
+    type: string
+    default: "current"
+    description: "somedescription"
+  working_dir:
+    type: string
+    default: "~/main"
+  emptyDefault:
+    type: string
+    default: ""
+  wow-this_is_a-long-name:
+    type: string
+    default: "testing"
+  somethingElse:
+    type: boolean
+    default: false
+  anInteger:
+    type: integer
+    default: 1
+  anEnum:
+    type: enum
+    enum: *enum
+    default: "darwin"
+  flastcasestring:
+    type: string
+    default: "flat"
+
+jobs:
+  hello-job:
+    docker:
+      - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - run: echo "hello world" # run the `echo` command
+      # - run: 
+      #     name: Kebab case params
+      #     command: |
+      #       echo "string param - << pipeline.parameters.string-param >>"
+      #       echo "int param - << pipeline.parameters.int-param >>"
+      #       echo "bool param - << pipeline.parameters.bool-param >>"
+      #       echo "enum param - << pipeline.parameters.enum-param >>"
+
+      # - run: 
+      #     name: Camel case params
+      #     command: |
+      #       echo "string param - << pipeline.parameters.camelCaseString >>"
+      #       echo "int param - << pipeline.parameters.camelCaseInteger >>"
+      #       echo "bool param - << pipeline.parameters.camelCaseBool >>"
+      #       echo "enum param - << pipeline.parameters.camelCaseEnum >>"
+
+
+      # - run: 
+      #     name: Snake case params
+      #     command: |
+      #       echo "string param - << pipeline.parameters.snake_case_string >>"
+      #       echo "int param - << pipeline.parameters.snake_case_integer >>"
+      #       echo "bool param - << pipeline.parameters.snake_case_bool >>"
+      #       echo "enum param - << pipeline.parameters.snake_case_enum >>"
+
+      # - run: 
+      #     name: Flat case params
+      #     command: |
+      #       echo "string param - << pipeline.parameters.flatcasestring >>"
+      #       echo "int param - << pipeline.parameters.flatcaseint >>"
+      #       echo "bool param - << pipeline.parameters.flatcasebool >>"
+      #       echo "enum param - << pipeline.parameters.flatcaseenum >>"
+
+
+      - run: 
+          name: Nick's params
+          command: |
+            echo "image tag - << pipeline.parameters.image-tag >>"
+            echo "working dir - << pipeline.parameters.working_dir >>"
+            echo "empty default - << pipeline.parameters.emptyDefault >>"
+            echo "long name - << pipeline.parameters.wow-this_is_a-long-name >>"
+            echo "something - << pipeline.parameters.somethingElse >>"
+            echo "an integer - << pipeline.parameters.anInteger >>"
+            echo "an enum - << pipeline.parameters.anEnum >>"
+            echo "flat case string - << pipeline.parameters.flastcasestring >>"
+
+workflows:
+  my-workflow:
+    jobs:
+      - hello-job
