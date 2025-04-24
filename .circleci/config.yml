@@ -3,6 +3,7 @@ version: 2.1
 enum: &enum ["darwin", "linux"]
 
 parameters:
+  # new comment
   # string-param:
   #   type: string
   #   default: "default string"
